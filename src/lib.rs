@@ -71,6 +71,12 @@ pub fn is_active (unit: &str) -> std::io::Result<bool> {
     Ok(status.trim_end().eq("active"))
 }
 
+/// Returns `true` if given `unit` is declared as enabled
+pub fn is_enabled (unit: &str) -> std::io::Result<bool> {
+    let status = systemctl_capture(vec!["is-enabled", unit])?;
+    Ok(status.trim_end().eq("enabled"))
+}
+
 /// Isolates given unit, only self and its dependencies are
 /// now actively running
 pub fn isolate (unit: &str) -> std::io::Result<ExitStatus> { systemctl(vec!["isolate", unit]) }
