@@ -614,6 +614,11 @@ impl Unit {
     pub fn is_active (&self) -> std::io::Result<bool> {
         is_active(&self.name)
     }
+
+    /// Returns `true` if Self is declared as enabled
+    pub fn is_enabled (&self) -> std::io::Result<bool> {
+        is_enabled(&self.name)
+    }
     
     /// `Isolate` Self, meaning stops all other units but
     /// self and its dependencies
@@ -652,6 +657,15 @@ mod test {
             let active = is_active(u);
             assert_eq!(active.is_ok(), true);
             println!("{} is-active: {:#?}", u, active);
+        }
+    }
+    #[test]
+    fn test_is_enabled() {
+        let units = vec!["sshd","dropbear","ntpd"];
+        for u in units {
+            let is_enabled = is_enabled(u);
+            assert_eq!(is_enabled.is_ok(), true);
+            println!("{} is-enabled: {:#?}", u, is_enabled);
         }
     }
     #[test]
